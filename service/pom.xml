@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>airhacks</groupId>
     <artifactId>service</artifactId>
-    <version>2025</version>
+    <version>2026</version>
 
     <properties>
         <compiler-plugin.version>3.15.0</compiler-plugin.version>
@@ -14,7 +14,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-        <quarkus.platform.version>3.35.1</quarkus.platform.version>
+        <quarkus.platform.version>3.34.5</quarkus.platform.version>
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.5.4</surefire-plugin.version>
     </properties>
