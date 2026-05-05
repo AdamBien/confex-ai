@@ -4,6 +4,20 @@ Conference management built on Quarkus and MicroProfile. Domain (sessions, speak
 
 Based on 👉 [quarkus-microprofile](https://github.com/adambien/quarkus-microprofile) template | BCE-structured 👉 [bce.design](https://bce.design) | AI-assisted with 👉 [airails.dev](https://airails.dev)
 
+## Scope
+
+Manages **Calls for Papers (CFPs)** and **talks** for a conference.
+
+**Actors**
+- **Organizer** — opens/closes CFPs, reviews submitted talks, accepts or rejects them.
+- **Speaker** — submits talks to an open CFP, updates their submissions, views status.
+
+**API** — REST (JSON), exposed by the `service` module.
+
+**Persistence** — in-memory only. State is lost on restart; no database, no JPA. Use CDI `@ApplicationScoped` collections as the store.
+
+**Out of scope (for now)** — authentication/authorization, ticketing, payments, agenda publishing, attendee management, persistent storage.
+
 ## Domain Model — schema.org
 
 The domain is aligned with established [schema.org](https://schema.org) types to stay interoperable and avoid reinventing well-known vocabulary:
