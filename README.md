@@ -1,8 +1,25 @@
-# 🚀Quarkus with MicroProfile on BCE
+# confex - Conference Management
 
-Quarkus MicroProfile template with BCE architecture pattern. Features boundary-control-entity separation, System Tests in a standalone module, REST endpoints with JAX-RS, CDI for dependency injection, and MicroProfile-only dependencies. A starting point for Quarkus projects with minimal dependencies.
+Conference management built on Quarkus and MicroProfile. Domain (sessions, speakers) is modeled after [schema.org/Event](https://schema.org/Event) and [schema.org/Person](https://schema.org/Person).
 
-BCE-structured 👉 [bce.design](https://bce.design) | AI-assisted with 👉 [airails.dev](https://airails.dev)
+Based on 👉 [quarkus-microprofile](https://github.com/adambien/quarkus-microprofile) template | BCE-structured 👉 [bce.design](https://bce.design) | AI-assisted with 👉 [airails.dev](https://airails.dev)
+
+## Domain Model — schema.org
+
+The domain is aligned with established [schema.org](https://schema.org) types to stay interoperable and avoid reinventing well-known vocabulary:
+
+- [Event](https://schema.org/Event) — base type for conferences, sessions, and tracks (start/end time, location, attendees).
+- [BusinessEvent](https://schema.org/BusinessEvent) — specialization for professional/industry conferences.
+- [EducationEvent](https://schema.org/EducationEvent) — specialization for workshops, tutorials, and training sessions.
+- [Person](https://schema.org/Person) — speakers, attendees, organizers (name, affiliation, contact).
+- [Organization](https://schema.org/Organization) — sponsors, hosts, and speaker affiliations.
+- [Place](https://schema.org/Place) — physical venue of an event.
+- [PostalAddress](https://schema.org/PostalAddress) — structured address of a venue.
+- [VirtualLocation](https://schema.org/VirtualLocation) — online/hybrid session location (e.g., stream URL).
+- [Schedule](https://schema.org/Schedule) — recurrence and timing patterns for sessions.
+- [Audience](https://schema.org/Audience) — intended audience of a session (e.g., level, role).
+- [PresentationDigitalDocument](https://schema.org/PresentationDigitalDocument) — slide decks and presentation artifacts.
+- [Offer](https://schema.org/Offer) — ticketing and registration offers for events.
 
 ## Getting Started
 
@@ -10,5 +27,7 @@ See [AGENTS.md](AGENTS.md#build--test) for build, dev mode, and system test inst
 
 ## Modules
 
-- [service](service/README.md) - Quarkus application module with BCE structure
+- [service](service/README.md) - Quarkus service module
 - [service-st](service-st/README.md) - System tests for the service module
+
+Powered by [airhacks.live](https://airhacks.live)
