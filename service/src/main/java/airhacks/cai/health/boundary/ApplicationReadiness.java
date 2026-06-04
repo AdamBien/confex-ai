@@ -1,16 +1,16 @@
-package airhacks.qmp.health.boundary;
+package airhacks.cai.health.boundary;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
-import org.eclipse.microprofile.health.Liveness;
+import org.eclipse.microprofile.health.Readiness;
 
-@Liveness
+@Readiness
 @ApplicationScoped
-public class ApplicationLiveness implements HealthCheck {
+public class ApplicationReadiness implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {
-        return HealthCheckResponse.up("application-live");
+        return HealthCheckResponse.up("application-ready");
     }
 }

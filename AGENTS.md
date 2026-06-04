@@ -20,7 +20,7 @@ Quarkus MicroProfile template using Boundary-Control-Entity (BCE) architectural 
 airhacks.[app-name].[component-name].[boundary|control|entity]
 ```
 
-Example: `airhacks.qmp.greetings.boundary.GreetingResource`
+Example: `airhacks.cai.greetings.boundary.GreetingResource`
 
 ### Modules
 
