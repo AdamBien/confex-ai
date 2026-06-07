@@ -78,7 +78,7 @@ Optional fields are omitted from JSON when `null`; `fromJSON` tolerates their ab
 - [description](https://schema.org/description) — abstract
 - [startDate](https://schema.org/startDate) — ISO-8601 `Instant`
 - [endDate](https://schema.org/endDate) — ISO-8601 `Instant`
-- [performer](https://schema.org/performer) — speaker name (cross-BC reference)
+- [performer](https://schema.org/performer) — the [Speaker](service/src/main/java/airhacks/cai/speakers/entity/Speaker.java) (cross-BC reference, nested JSON)
 
 Generated files:
 
@@ -88,5 +88,27 @@ Generated files:
 - [service/src/main/java/airhacks/cai/sessions/boundary/SessionsResource.java](service/src/main/java/airhacks/cai/sessions/boundary/SessionsResource.java)
 - [service-st/src/main/java/airhacks/cai/sessions/boundary/SessionsResourceClient.java](service-st/src/main/java/airhacks/cai/sessions/boundary/SessionsResourceClient.java)
 - [service-st/src/test/java/airhacks/cai/sessions/boundary/SessionsResourceIT.java](service-st/src/test/java/airhacks/cai/sessions/boundary/SessionsResourceIT.java)
+
+### `session has speaker`
+
+`Session.performer` promoted from `String` to a real [Speaker](service/src/main/java/airhacks/cai/speakers/entity/Speaker.java) reference — schema.org/performer is a `Person`, so the JSON now nests:
+
+```json
+{
+  "name": "Effective Java",
+  "performer": { "name": "Duke", "affiliation": "Oracle" }
+}
+```
+
+The cross-BC reference (`sessions` → `speakers`) is explicit: `Session.toJSON()` delegates to `Speaker.toJSON()`, and `Session.fromJSON()` delegates to `Speaker.fromJSON()`. BCE allows direct references between entities of independent BCs.
+
+Touched files:
+
+- [service/src/main/java/airhacks/cai/sessions/entity/Session.java](service/src/main/java/airhacks/cai/sessions/entity/Session.java)
+- [service-st/src/test/java/airhacks/cai/sessions/boundary/SessionsResourceIT.java](service-st/src/test/java/airhacks/cai/sessions/boundary/SessionsResourceIT.java)
+
+### `/java-conventions` — drop `private` on helper methods
+
+Updated the composed [`/java-conventions`](https://github.com/AdamBien/airails) skill to explicitly require package-private over `private` for methods and fields, with testability as the stated reason. Applied retroactively to [Speaker](service/src/main/java/airhacks/cai/speakers/entity/Speaker.java) and [Session](service/src/main/java/airhacks/cai/sessions/entity/Session.java): the JSON helpers (`addIfPresent`, `addInstantIfPresent`, `parseInstant`, `parsePerformer`) are now package-private so same-package unit tests can exercise edge cases directly.
 
 Powered by [airhacks.live](https://airhacks.live)

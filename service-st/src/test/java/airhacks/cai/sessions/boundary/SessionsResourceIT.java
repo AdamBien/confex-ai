@@ -19,12 +19,18 @@ class SessionsResourceIT {
 
     @Test
     void addAndListKeynote() {
+        var duke = Json.createObjectBuilder()
+                .add("name", "Duke")
+                .add("email", "duke@java.net")
+                .add("jobTitle", "Mascot")
+                .add("affiliation", "Oracle");
+
         var keynote = Json.createObjectBuilder()
                 .add("name", "Effective Java")
                 .add("description", "Idiomatic patterns and pitfalls.")
                 .add("startDate", "2026-09-15T10:00:00Z")
                 .add("endDate", "2026-09-15T11:00:00Z")
-                .add("performer", "Duke")
+                .add("performer", duke)
                 .build();
 
         try (var response = this.client.add(keynote)) {
@@ -37,7 +43,9 @@ class SessionsResourceIT {
             assertThat(sessions).isNotEmpty();
             var last = sessions.getJsonObject(sessions.size() - 1);
             assertThat(last.getString("name")).isEqualTo("Effective Java");
-            assertThat(last.getString("performer")).isEqualTo("Duke");
+            var performer = last.getJsonObject("performer");
+            assertThat(performer.getString("name")).isEqualTo("Duke");
+            assertThat(performer.getString("affiliation")).isEqualTo("Oracle");
         }
     }
 }

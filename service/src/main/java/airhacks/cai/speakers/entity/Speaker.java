@@ -42,7 +42,7 @@ public record Speaker(
                 json.getString("description", null));
     }
 
-    private static void addIfPresent(JsonObjectBuilder builder, String key, String value) {
+    static void addIfPresent(JsonObjectBuilder builder, String key, String value) {
         if (value != null) {
             builder.add(key, value);
         }
