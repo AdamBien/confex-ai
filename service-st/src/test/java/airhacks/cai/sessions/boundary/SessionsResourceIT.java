@@ -18,6 +18,30 @@ class SessionsResourceIT {
     SessionsResourceClient client;
 
     @Test
+    void missingNameIsRejected() {
+        var invalid = Json.createObjectBuilder()
+                .add("description", "no title")
+                .build();
+
+        try (var response = this.client.add(invalid)) {
+            assertThat(response.getStatus()).isEqualTo(400);
+        }
+    }
+
+    @Test
+    void endBeforeStartIsRejected() {
+        var invalid = Json.createObjectBuilder()
+                .add("name", "Time Travel")
+                .add("startDate", "2026-09-15T11:00:00Z")
+                .add("endDate", "2026-09-15T10:00:00Z")
+                .build();
+
+        try (var response = this.client.add(invalid)) {
+            assertThat(response.getStatus()).isEqualTo(400);
+        }
+    }
+
+    @Test
     void addAndListKeynote() {
         var duke = Json.createObjectBuilder()
                 .add("name", "Duke")

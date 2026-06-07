@@ -6,6 +6,7 @@ import airhacks.cai.speakers.entity.Speaker;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
+import jakarta.ws.rs.BadRequestException;
 
 /**
  * Conference session modeled after <a href="https://schema.org/Event">schema.org/Event</a>.
@@ -23,6 +24,15 @@ public record Session(
         Instant endDate,
         Speaker performer) {
 
+    public Session {
+        if (name == null || name.isBlank()) {
+            throw new BadRequestException("session name must not be blank");
+        }
+        if (startDate != null && endDate != null && endDate.isBefore(startDate)) {
+            throw new BadRequestException("endDate %s is before startDate %s".formatted(endDate, startDate));
+        }
+    }
+
     public JsonObject toJSON() {
         var builder = Json.createObjectBuilder().add("name", this.name);
         addIfPresent(builder, "description", this.description);
@@ -36,7 +46,7 @@ public record Session(
 
     public static Session fromJSON(JsonObject json) {
         return new Session(
-                json.getString("name"),
+                json.getString("name", null),
                 json.getString("description", null),
                 parseInstant(json.getString("startDate", null)),
                 parseInstant(json.getString("endDate", null)),

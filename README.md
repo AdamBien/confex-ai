@@ -118,6 +118,15 @@ Invalid input throws `jakarta.ws.rs.BadRequestException`, which JAX-RS auto-maps
 
 [SpeakersResourceIT](service-st/src/test/java/airhacks/cai/speakers/boundary/SpeakersResourceIT.java) gained two negative tests asserting the 400 response (`missingNameIsRejected`, `malformedEmailIsRejected`), keeping the class at the 3-tests-per-class ceiling.
 
+### `validate session`
+
+Same pattern applied to [Session](service/src/main/java/airhacks/cai/sessions/entity/Session.java):
+
+- `name` required and non-blank
+- `endDate` must not be before `startDate` (only checked when both are present)
+
+Nested `Speaker` validation bubbles up automatically — an invalid performer inside a session payload still returns 400, no extra plumbing. [SessionsResourceIT](service-st/src/test/java/airhacks/cai/sessions/boundary/SessionsResourceIT.java) gained `missingNameIsRejected` and `endBeforeStartIsRejected`.
+
 ### `/java-conventions` — drop `private` on helper methods
 
 Updated the composed [`/java-conventions`](https://github.com/AdamBien/airails) skill to explicitly require package-private over `private` for methods and fields, with testability as the stated reason. Applied retroactively to [Speaker](service/src/main/java/airhacks/cai/speakers/entity/Speaker.java) and [Session](service/src/main/java/airhacks/cai/sessions/entity/Session.java): the JSON helpers (`addIfPresent`, `addInstantIfPresent`, `parseInstant`, `parsePerformer`) are now package-private so same-package unit tests can exercise edge cases directly.
