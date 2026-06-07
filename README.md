@@ -127,6 +127,14 @@ Same pattern applied to [Session](service/src/main/java/airhacks/cai/sessions/en
 
 Nested `Speaker` validation bubbles up automatically — an invalid performer inside a session payload still returns 400, no extra plumbing. [SessionsResourceIT](service-st/src/test/java/airhacks/cai/sessions/boundary/SessionsResourceIT.java) gained `missingNameIsRejected` and `endBeforeStartIsRejected`.
 
+### `introduce validations BC`
+
+Extracted the shared `name`-non-blank guard into a control-only [validations BC](service/src/main/java/airhacks/cai/validations) (no boundary, no entity — pure cross-cutting helper consumed by other BCs):
+
+- [Strings.requireNonBlank(subject, value)](service/src/main/java/airhacks/cai/validations/control/Strings.java) — interface with a `static` method, package-private placement, throws `BadRequestException`.
+
+[Speaker](service/src/main/java/airhacks/cai/speakers/entity/Speaker.java) and [Session](service/src/main/java/airhacks/cai/sessions/entity/Session.java) now both delegate to it. Format-specific checks (email, date ordering) stay in the owning entity because they don't repeat — when a third user appears, they'll get their own `Emails` / `Dates` helper in the same BC.
+
 ### `/java-conventions` — drop `private` on helper methods
 
 Updated the composed [`/java-conventions`](https://github.com/AdamBien/airails) skill to explicitly require package-private over `private` for methods and fields, with testability as the stated reason. Applied retroactively to [Speaker](service/src/main/java/airhacks/cai/speakers/entity/Speaker.java) and [Session](service/src/main/java/airhacks/cai/sessions/entity/Session.java): the JSON helpers (`addIfPresent`, `addInstantIfPresent`, `parseInstant`, `parsePerformer`) are now package-private so same-package unit tests can exercise edge cases directly.

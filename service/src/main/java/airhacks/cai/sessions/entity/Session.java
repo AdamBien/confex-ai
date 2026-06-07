@@ -3,6 +3,7 @@ package airhacks.cai.sessions.entity;
 import java.time.Instant;
 
 import airhacks.cai.speakers.entity.Speaker;
+import airhacks.cai.validations.control.Strings;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
@@ -25,9 +26,7 @@ public record Session(
         Speaker performer) {
 
     public Session {
-        if (name == null || name.isBlank()) {
-            throw new BadRequestException("session name must not be blank");
-        }
+        Strings.requireNonBlank("session name", name);
         if (startDate != null && endDate != null && endDate.isBefore(startDate)) {
             throw new BadRequestException("endDate %s is before startDate %s".formatted(endDate, startDate));
         }

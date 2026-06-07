@@ -1,5 +1,6 @@
 package airhacks.cai.speakers.entity;
 
+import airhacks.cai.validations.control.Strings;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
@@ -24,9 +25,7 @@ public record Speaker(
         String description) {
 
     public Speaker {
-        if (name == null || name.isBlank()) {
-            throw new BadRequestException("speaker name must not be blank");
-        }
+        Strings.requireNonBlank("speaker name", name);
         if (email != null && !email.contains("@")) {
             throw new BadRequestException("speaker email is not valid: " + email);
         }
