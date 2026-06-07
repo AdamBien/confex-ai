@@ -2,6 +2,8 @@
 
 Conference management built on Quarkus and MicroProfile. Domain (sessions, speakers) is modeled after [schema.org/Event](https://schema.org/Event) and [schema.org/Person](https://schema.org/Person).
 
+AI-generated counterpart to the hand-crafted 👉 [AdamBien/confex](https://github.com/AdamBien/confex) — same scope, same BCE structure, same conventions, regenerated entirely through `/microprofile-server` and friends.
+
 Based on 👉 [quarkus-microprofile](https://github.com/adambien/quarkus-microprofile) template | BCE-structured 👉 [bce.design](https://bce.design) | AI-assisted with 👉 [airails.dev](https://airails.dev)
 
 ## Scope
