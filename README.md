@@ -70,4 +70,23 @@ Generated files:
 
 Optional fields are omitted from JSON when `null`; `fromJSON` tolerates their absence. [SpeakersResourceIT](service-st/src/test/java/airhacks/cai/speakers/boundary/SpeakersResourceIT.java) updated to round-trip the full attribute set.
 
+### `/microprofile-server create session BC`
+
+[Session](service/src/main/java/airhacks/cai/sessions/entity/Session.java) modeled after [schema.org/Event](https://schema.org/Event):
+
+- [name](https://schema.org/name) — required (talk title)
+- [description](https://schema.org/description) — abstract
+- [startDate](https://schema.org/startDate) — ISO-8601 `Instant`
+- [endDate](https://schema.org/endDate) — ISO-8601 `Instant`
+- [performer](https://schema.org/performer) — speaker name (cross-BC reference)
+
+Generated files:
+
+- [service/src/main/java/airhacks/cai/sessions/package-info.java](service/src/main/java/airhacks/cai/sessions/package-info.java)
+- [service/src/main/java/airhacks/cai/sessions/entity/Session.java](service/src/main/java/airhacks/cai/sessions/entity/Session.java)
+- [service/src/main/java/airhacks/cai/sessions/control/Sessions.java](service/src/main/java/airhacks/cai/sessions/control/Sessions.java)
+- [service/src/main/java/airhacks/cai/sessions/boundary/SessionsResource.java](service/src/main/java/airhacks/cai/sessions/boundary/SessionsResource.java)
+- [service-st/src/main/java/airhacks/cai/sessions/boundary/SessionsResourceClient.java](service-st/src/main/java/airhacks/cai/sessions/boundary/SessionsResourceClient.java)
+- [service-st/src/test/java/airhacks/cai/sessions/boundary/SessionsResourceIT.java](service-st/src/test/java/airhacks/cai/sessions/boundary/SessionsResourceIT.java)
+
 Powered by [airhacks.live](https://airhacks.live)

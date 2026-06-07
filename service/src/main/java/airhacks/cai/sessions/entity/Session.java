@@ -1,0 +1,58 @@
+package airhacks.cai.sessions.entity;
+
+import java.time.Instant;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+
+/**
+ * Conference session modeled after <a href="https://schema.org/Event">schema.org/Event</a>.
+ *
+ * @param name        <a href="https://schema.org/name">schema.org/name</a> (talk title)
+ * @param description <a href="https://schema.org/description">schema.org/description</a> (abstract)
+ * @param startDate   <a href="https://schema.org/startDate">schema.org/startDate</a> (ISO-8601 instant)
+ * @param endDate     <a href="https://schema.org/endDate">schema.org/endDate</a> (ISO-8601 instant)
+ * @param performer   <a href="https://schema.org/performer">schema.org/performer</a> (speaker name)
+ */
+public record Session(
+        String name,
+        String description,
+        Instant startDate,
+        Instant endDate,
+        String performer) {
+
+    public JsonObject toJSON() {
+        var builder = Json.createObjectBuilder().add("name", this.name);
+        addIfPresent(builder, "description", this.description);
+        addInstantIfPresent(builder, "startDate", this.startDate);
+        addInstantIfPresent(builder, "endDate", this.endDate);
+        addIfPresent(builder, "performer", this.performer);
+        return builder.build();
+    }
+
+    public static Session fromJSON(JsonObject json) {
+        return new Session(
+                json.getString("name"),
+                json.getString("description", null),
+                parseInstant(json.getString("startDate", null)),
+                parseInstant(json.getString("endDate", null)),
+                json.getString("performer", null));
+    }
+
+    private static Instant parseInstant(String value) {
+        return value == null ? null : Instant.parse(value);
+    }
+
+    private static void addIfPresent(JsonObjectBuilder builder, String key, String value) {
+        if (value != null) {
+            builder.add(key, value);
+        }
+    }
+
+    private static void addInstantIfPresent(JsonObjectBuilder builder, String key, Instant value) {
+        if (value != null) {
+            builder.add(key, value.toString());
+        }
+    }
+}
