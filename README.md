@@ -44,4 +44,17 @@ See [AGENTS.md](AGENTS.md#build--test) for build, dev mode, and system test inst
 - [service](service/README.md) - Quarkus service module
 - [service-st](service-st/README.md) - System tests for the service module
 
+## Progress Log
+
+### `/microprofile-server create speaker BC`
+
+Generated files:
+
+- [service/src/main/java/airhacks/cai/speakers/package-info.java](service/src/main/java/airhacks/cai/speakers/package-info.java)
+- [service/src/main/java/airhacks/cai/speakers/entity/Speaker.java](service/src/main/java/airhacks/cai/speakers/entity/Speaker.java)
+- [service/src/main/java/airhacks/cai/speakers/control/Speakers.java](service/src/main/java/airhacks/cai/speakers/control/Speakers.java)
+- [service/src/main/java/airhacks/cai/speakers/boundary/SpeakersResource.java](service/src/main/java/airhacks/cai/speakers/boundary/SpeakersResource.java)
+- [service-st/src/main/java/airhacks/cai/speakers/boundary/SpeakersResourceClient.java](service-st/src/main/java/airhacks/cai/speakers/boundary/SpeakersResourceClient.java)
+- [service-st/src/test/java/airhacks/cai/speakers/boundary/SpeakersResourceIT.java](service-st/src/test/java/airhacks/cai/speakers/boundary/SpeakersResourceIT.java)
+
 Powered by [airhacks.live](https://airhacks.live)
