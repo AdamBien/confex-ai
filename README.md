@@ -57,4 +57,17 @@ Generated files:
 - [service-st/src/main/java/airhacks/cai/speakers/boundary/SpeakersResourceClient.java](service-st/src/main/java/airhacks/cai/speakers/boundary/SpeakersResourceClient.java)
 - [service-st/src/test/java/airhacks/cai/speakers/boundary/SpeakersResourceIT.java](service-st/src/test/java/airhacks/cai/speakers/boundary/SpeakersResourceIT.java)
 
+### `pick useful attributes from schema.org`
+
+[Speaker](service/src/main/java/airhacks/cai/speakers/entity/Speaker.java) aligned with [schema.org/Person](https://schema.org/Person):
+
+- [name](https://schema.org/name) — required
+- [email](https://schema.org/email)
+- [jobTitle](https://schema.org/jobTitle)
+- [affiliation](https://schema.org/affiliation) — organization name
+- [url](https://schema.org/url) — homepage
+- [description](https://schema.org/description) — bio
+
+Optional fields are omitted from JSON when `null`; `fromJSON` tolerates their absence. [SpeakersResourceIT](service-st/src/test/java/airhacks/cai/speakers/boundary/SpeakersResourceIT.java) updated to round-trip the full attribute set.
+
 Powered by [airhacks.live](https://airhacks.live)

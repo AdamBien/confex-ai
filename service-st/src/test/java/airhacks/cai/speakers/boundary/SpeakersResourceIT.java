@@ -21,7 +21,11 @@ class SpeakersResourceIT {
     void addAndListDuke() {
         var duke = Json.createObjectBuilder()
                 .add("name", "Duke")
-                .add("topic", "Effective Java")
+                .add("email", "duke@java.net")
+                .add("jobTitle", "Mascot")
+                .add("affiliation", "Oracle")
+                .add("url", "https://dev.java")
+                .add("description", "The official Java mascot.")
                 .build();
 
         try (var response = this.client.add(duke)) {
@@ -32,8 +36,9 @@ class SpeakersResourceIT {
             assertThat(response.getStatus()).isEqualTo(200);
             var speakers = response.readEntity(JsonArray.class);
             assertThat(speakers).isNotEmpty();
-            assertThat(speakers.getJsonObject(speakers.size() - 1).getString("name"))
-                    .isEqualTo("Duke");
+            var last = speakers.getJsonObject(speakers.size() - 1);
+            assertThat(last.getString("name")).isEqualTo("Duke");
+            assertThat(last.getString("affiliation")).isEqualTo("Oracle");
         }
     }
 }
