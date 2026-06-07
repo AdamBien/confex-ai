@@ -18,6 +18,29 @@ class SpeakersResourceIT {
     SpeakersResourceClient client;
 
     @Test
+    void missingNameIsRejected() {
+        var invalid = Json.createObjectBuilder()
+                .add("email", "anon@java.net")
+                .build();
+
+        try (var response = this.client.add(invalid)) {
+            assertThat(response.getStatus()).isEqualTo(400);
+        }
+    }
+
+    @Test
+    void malformedEmailIsRejected() {
+        var invalid = Json.createObjectBuilder()
+                .add("name", "Duke")
+                .add("email", "not-an-email")
+                .build();
+
+        try (var response = this.client.add(invalid)) {
+            assertThat(response.getStatus()).isEqualTo(400);
+        }
+    }
+
+    @Test
     void addAndListDuke() {
         var duke = Json.createObjectBuilder()
                 .add("name", "Duke")

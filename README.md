@@ -107,6 +107,17 @@ Touched files:
 - [service/src/main/java/airhacks/cai/sessions/entity/Session.java](service/src/main/java/airhacks/cai/sessions/entity/Session.java)
 - [service-st/src/test/java/airhacks/cai/sessions/boundary/SessionsResourceIT.java](service-st/src/test/java/airhacks/cai/sessions/boundary/SessionsResourceIT.java)
 
+### `validate speaker`
+
+[Speaker](service/src/main/java/airhacks/cai/speakers/entity/Speaker.java) self-validates in its compact constructor — no `quarkus-hibernate-validator`, no bean-validation annotations:
+
+- `name` required and non-blank
+- `email` must contain `@` if present
+
+Invalid input throws `jakarta.ws.rs.BadRequestException`, which JAX-RS auto-maps to HTTP 400 at any call depth. `fromJSON` now reads `name` via the nullable getter so a missing field flows through the validator (clean 400) instead of an opaque 500.
+
+[SpeakersResourceIT](service-st/src/test/java/airhacks/cai/speakers/boundary/SpeakersResourceIT.java) gained two negative tests asserting the 400 response (`missingNameIsRejected`, `malformedEmailIsRejected`), keeping the class at the 3-tests-per-class ceiling.
+
 ### `/java-conventions` — drop `private` on helper methods
 
 Updated the composed [`/java-conventions`](https://github.com/AdamBien/airails) skill to explicitly require package-private over `private` for methods and fields, with testability as the stated reason. Applied retroactively to [Speaker](service/src/main/java/airhacks/cai/speakers/entity/Speaker.java) and [Session](service/src/main/java/airhacks/cai/sessions/entity/Session.java): the JSON helpers (`addIfPresent`, `addInstantIfPresent`, `parseInstant`, `parsePerformer`) are now package-private so same-package unit tests can exercise edge cases directly.

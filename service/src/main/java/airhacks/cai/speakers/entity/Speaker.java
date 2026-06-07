@@ -3,6 +3,7 @@ package airhacks.cai.speakers.entity;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
+import jakarta.ws.rs.BadRequestException;
 
 /**
  * Conference speaker modeled after <a href="https://schema.org/Person">schema.org/Person</a>.
@@ -22,6 +23,15 @@ public record Speaker(
         String url,
         String description) {
 
+    public Speaker {
+        if (name == null || name.isBlank()) {
+            throw new BadRequestException("speaker name must not be blank");
+        }
+        if (email != null && !email.contains("@")) {
+            throw new BadRequestException("speaker email is not valid: " + email);
+        }
+    }
+
     public JsonObject toJSON() {
         var builder = Json.createObjectBuilder().add("name", this.name);
         addIfPresent(builder, "email", this.email);
@@ -34,7 +44,7 @@ public record Speaker(
 
     public static Speaker fromJSON(JsonObject json) {
         return new Speaker(
-                json.getString("name"),
+                json.getString("name", null),
                 json.getString("email", null),
                 json.getString("jobTitle", null),
                 json.getString("affiliation", null),
